@@ -1,4 +1,4 @@
-/* * alyi's ErgoDox EZ layout file!  */
+/* * alyi's ErgoDox EZ layoutreadme.md file!  */
 
 #include <stdarg.h>
 #include "ergodox.h"
@@ -50,11 +50,6 @@ enum {
   NP,
   KILL,
 
-  // Modifier
-  F_ALT,
-  F_SFT,
-  F_CTL,
-
   // Tap dace
   KF_0,
   KF_1,
@@ -84,6 +79,7 @@ enum {
   CT_TEST,
   CT_GIT_CLOSE,
   CT_TAB_ESC,
+  CT_BSPC_BK,
 };
 /* Fn keys */
 
@@ -109,37 +105,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,-----------------------------------------------------.           ,-----------------------------------------------------.
  * |         ~ |   1  |   2  |   3  |   4  |   5  | ir/mu|           | proj |   6  |   7  |   8  |   9  |  0   | kill      |
  * |-----------+------+------+------+------+-------------|           |------+------+------+------+------+------+-----------|
- * |           |   Q  |   W  | E/SFT|   R  |   T  |   (  |           |  )   |   Y  |   U  | I/SFT|   O  |  P   | \         |
+ * |  t_back   |   Q  |   W  | E/SFT|   R  |   T  |   (  |           |  )   |   Y  |   U  | I/SFT|   O  |  P   | \         |
  * |-----------+------+------+------+------+------|   [  |           |  ]   |------+------+------+------+------+-----------|
  * |  Next/Prev|   A  | S/ALT| D/CTL| F/GUI|   G  |------|           |------|   H  | J/GUI| K/CTL| L/ALT|  '   | = / Arrow |
  * |-----------+------+------+------+------+------| C-p  |           | C-n  |------+------+------+------+------+-----------|
- * | Play/Pause|   Z  |   X  |   C  |   V  |   B  | tmux |           | zoom |   N  |   M  |   ,  |   .  |  /   |      Stop |
+ * | Play/Pause|   Z  |   X  |   C  |   V  |   B  | tmux |           | zoom |   N  |   M  |   ,  |   .  |      |      Stop |
  * `-----------+------+------+------+------+-------------'           `-------------+------+------+------+------+-----------'
- *     |cop/pas|      |      |   :  |  ctrl|                                       |   -  |test  |git/cl|      |       |
+ *     |cop/pas|      |      |   :  |  /   |                                       |   -  |test  |git/cl|      |       |
  *     `-----------------------------------'                                       `-----------------------------------'
  *                                         ,-------------.           ,-------------.
- *                                         | LAlt | GUI  |           | MDIA | Del  |
+ *                                         | esc  |      |           | MDIA | Del  |
  *                                  ,------|------|------|           |------+------+------.
- *                                  |      |      |tabesc|           | LEAD |      |      |
- *                                  |Backsp|LShift|------|           |------| Enter| Space|
+ *                                  |      |      |      |           | LEAD |      |      |
+ *                                  |Backsp| tab  |------|           |------| Enter| Space|
  *                                  |      |      |  {   |           |  }   |      |      |
  *                                  `--------------------'           `--------------------'
  */
 [BASE] = KEYMAP(
 // left hand
- KC_TAB           ,TD(KF_1),TD(KF_2)   ,TD(KF_3)   ,TD(KF_4)   ,TD(KF_5),TD(CT_IRC_MUTT)
-,KC_NO            ,KC_Q    ,KC_W       ,SFT_T(KC_E),KC_R       ,KC_T    ,TD(CT_LBP)
+ KC_TILD          ,TD(KF_1),TD(KF_2)   ,TD(KF_3)   ,TD(KF_4)   ,TD(KF_5),TD(CT_IRC_MUTT)
+,TD(CT_BSPC_BK)   ,KC_Q    ,KC_W       ,SFT_T(KC_E),KC_R       ,KC_T    ,TD(CT_LBP)
 ,M(NP)            ,KC_A    ,ALT_T(KC_S),CTL_T(KC_D),GUI_T(KC_F),KC_G
 ,KC_MPLY          ,KC_Z    ,KC_X       ,KC_C       ,KC_V       ,KC_B    ,TD(CT_CTRLP_TMUX)
-,TD(CT_COPY_PASTE),KC_NO   ,KC_NO      ,TD(CT_CLN) ,F(F_CTL)
+,TD(CT_COPY_PASTE),KC_NO   ,KC_NO      ,TD(CT_CLN) ,TD(KF_SLSH)
 
-,F(F_ALT),OSM(MOD_LGUI)
-,TD(CT_TAB_ESC)
-,KC_BSPC ,F(F_SFT)     ,KC_LCBR
+,KC_ESC ,KC_NO
+,KC_NO
+,KC_BSPC,KC_TAB,KC_LCBR
+
 
 // right hand
 ,TD(CT_PROJ)      ,TD(KF_6)   ,TD(KF_7)        ,TD(KF_8)   ,TD(KF_9)   ,TD(KF_0)   ,M(KILL)
-,TD(CT_RBP)       ,KC_Y       ,SFT_T(KC_U)     ,KC_I       ,KC_O       ,KC_P       ,KC_BSLS
+,TD(CT_RBP)       ,KC_Y       ,KC_U            ,SFT_T(KC_I),KC_O       ,KC_P       ,KC_BSLS
 ,KC_H             ,GUI_T(KC_J),CTL_T(KC_K)     ,ALT_T(KC_L),TD(KF_QUOT),TD(KF_EQL)
 ,TD(CT_CTRLN_ZOOM),KC_N       ,KC_M            ,TD(KF_COMM),TD(KF_DOT) ,TD(KF_SLSH),KC_MSTP
 ,TD(KF_MINS)      ,TD(CT_TEST),TD(CT_GIT_CLOSE),KC_NO      ,KC_NO
@@ -151,7 +148,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 1: Navigation & Media layer
  *
  * ,-----------------------------------------------------.           ,-----------------------------------------------------.
- * | MS Slow   |sleep |sequel|      |      |      |ScrLCK|           |ScrLCK|itunes|iterm |safari|chrome|finder|messages   |
+ * | MS Slow   |      |      |      |      |      |ScrLCK|           |ScrLCK|      |      |      |      |      |           |
  * |-----------+------+------+------+------+-------------|           |------+------+------+------+------+------+-----------|
  * | MS Normal |      | Home |  Up  | PgUp |      |      |           |Scroll|      |MsUpL | MsUp |MsUpR |      |PrintScreen|
  * |-----------+------+------+------+------+------|      |           |  Up  |------+------+------+------+------+-----------|
@@ -159,45 +156,39 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |-----------+------+------+------+------+------|      |           |Scroll|------+------+------+------+------+-----------|
  * | Play/Pause|      | End  | Down | PgDn |      |      |           | Down |      |MsDnL | MsDn |MsDnR |      |      Stop |
  * `-----------+------+------+------+------+-------------'           `-------------+------+------+------+------+-----------'
- *      |      |      |      |      |      |                                       |      |      |      |      |      |
+ *      |sleep |sequel|messag|safari|finder|                                       |      |      |      |      |      |
  *      `----------------------------------'                                       `----------------------------------'
  *                                         ,-------------.           ,-------------.
  *                                         | Mute | VlUp |           | BASE | MClk |
  *                                  ,------|------|------|           |------+------+------.
  *                                  |      |      | VlDn |           | Prev |Left  |Right |
- *                                  |  SPC | Enter|------|           |------| Click| Click|
+ *                                  |iterm |chrome|------|           |------| Click| Click|
  *                                  |      |      | ESC  |           | Next |      |      |
  *                                  `--------------------'           `--------------------'
  */
 [NMDIA] = KEYMAP(
 // left hand
- M(A_ACL0)  ,M(AP_SLEEP) ,M(AP_SEQUEL),KC_NO   ,KC_NO   ,KC_NO   ,LGUI(KC_L)
-,M(A_ACL1)  ,KC_NO       ,KC_HOME     ,KC_UP   ,KC_PGUP ,KC_NO   ,KC_NO
+ M(A_ACL0)  ,KC_NO       ,KC_NO       ,KC_NO   ,KC_NO   ,KC_NO    ,LGUI(KC_L)
+,M(A_ACL1)  ,KC_NO       ,KC_HOME     ,KC_UP   ,KC_PGUP ,KC_NO    ,KC_NO
 ,M(A_ACL2)  ,KC_NO       ,KC_LEFT     ,KC_DOWN ,KC_RIGHT,KC_NO
-,KC_MPLY    ,KC_NO       ,KC_END      ,KC_DOWN ,KC_PGDN ,KC_NO   ,KC_NO
-,KC_NO      ,KC_NO       ,KC_NO       ,KC_NO   ,KC_NO
+,KC_MPLY    ,KC_NO       ,KC_END      ,KC_DOWN ,KC_PGDN ,KC_NO    ,KC_NO
+,M(AP_SLEEP),M(AP_SEQUEL),M(AP_MESSAGE),M(AP_SAFARI),M(AP_FINDER)
 
 ,KC_MUTE ,KC_VOLU
 ,KC_VOLD
-,KC_SPC  ,KC_ENTER,KC_ESC
+,M(AP_ITERM),M(AP_CHROME),KC_ESC
 
 // right hand
-,LGUI(KC_L),M(AP_ITUNES),M(AP_ITERM),M(AP_SAFARI),M(AP_CHROME),M(AP_FINDER),M(AP_MESSAGE)
-,KC_WH_U   ,KC_NO       ,M(A_MUL)   ,KC_MS_U     ,M(A_MUR)    ,KC_NO       ,KC_PSCR
-,KC_NO     ,KC_MS_L     ,KC_MS_D    ,KC_MS_R     ,KC_NO       ,KC_NO
-,KC_WH_D   ,KC_NO       ,M(A_MDL)   ,KC_MS_D     ,M(A_MDR)    ,KC_NO       ,KC_MSTP
-,KC_NO     ,KC_NO       ,KC_NO      ,KC_NO       ,KC_NO
+,LGUI(KC_L),KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO,KC_NO
+,KC_WH_U   ,KC_NO   ,M(A_MUL),KC_MS_U ,M(A_MUR),KC_NO,KC_PSCR
+,KC_NO     ,KC_MS_L ,KC_MS_D ,KC_MS_R ,KC_NO   ,KC_NO
+,KC_WH_D   ,KC_NO   ,M(A_MDL),KC_MS_D ,M(A_MDR),KC_NO,KC_MSTP
+,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO
 
 ,KC_TRNS,KC_MS_BTN3
 ,KC_MPRV
 ,KC_MNXT,KC_BTN1 ,KC_BTN2
     ),
-};
-
-const uint16_t PROGMEM fn_actions[] = {
-  [F_SFT]  = ACTION_MODS_ONESHOT (MOD_LSFT),
-  [F_ALT]  = ACTION_MODS_ONESHOT (MOD_LALT),
-  [F_CTL]  = ACTION_MODS_ONESHOT (MOD_LCTL),
 };
 
 static struct {
@@ -419,6 +410,7 @@ static void ang_tap_dance_irc_mutt (qk_tap_dance_state_t *state, void *user_data
     unregister_code (KC_LCTRL);
     unregister_code (KC_S);
     register_code (KC_M);
+    unregister_code (KC_M);
   }
 }
 
@@ -502,6 +494,15 @@ static void ang_tap_dance_git_close (qk_tap_dance_state_t *state, void *user_dat
   }
 }
 
+static void ang_tap_dance_bspc_bk (qk_tap_dance_state_t *state, void *user_data) {
+  register_code (KC_LCTRL);
+  register_code (KC_S);
+  unregister_code (KC_LCTRL);
+  unregister_code (KC_S);
+  register_code (KC_A);
+  unregister_code (KC_A);
+}
+
 LEADER_EXTERNS();
 
 qk_tap_dance_action_t tap_dance_actions[] = {
@@ -516,6 +517,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [CT_PROJ]       = ACTION_TAP_DANCE_FN (ang_tap_dance_proj),
   [CT_TEST]       = ACTION_TAP_DANCE_FN (ang_tap_dance_test),
   [CT_GIT_CLOSE]  = ACTION_TAP_DANCE_FN (ang_tap_dance_git_close),
+  [CT_BSPC_BK]    = ACTION_TAP_DANCE_FN (ang_tap_dance_bspc_bk),
   [KF_1]          = ACTION_TAP_DANCE_DOUBLE (KC_1, KC_EXLM),
   [KF_2]          = ACTION_TAP_DANCE_DOUBLE (KC_2, KC_AT),
   [KF_3]          = ACTION_TAP_DANCE_DOUBLE (KC_3, KC_HASH),
