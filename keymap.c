@@ -14,43 +14,23 @@
 
 /* Layers */
 #define BASE 0
-#define NMDIA 1
+#define MOUSE 1
 
 /* Macros */
 enum {
-  // Diagonal mouse movement
-  A_MUL,
-  A_MUR,
-  A_MDL,
-  A_MDR,
-
-  // Mouse acceleration
-  A_ACL0,
-  A_ACL1,
-  A_ACL2,
-
-  // Mail
-  //M_WORK,
-  //M_PERSO,
-
-  // VIM
-  //V_AUTOINDENT,
-  //V_SEARCH,
-
   // APP
   AP_ITERM,
-  AP_CHROME,
   AP_SAFARI,
   AP_MESSAGE,
   AP_FINDER,
   AP_ITUNES,
   AP_SLEEP,
   AP_SEQUEL,
+  AP_INTELLIJ,
 
   NP,
-  KILL,
 
-  // Tap dace
+  // Tap dance
   KF_0,
   KF_1,
   KF_2,
@@ -71,15 +51,6 @@ enum {
   CT_LBP,
   CT_RBP,
   CT_CLN,
-  CT_IRC_MUTT,
-  CT_COPY_PASTE,
-  CT_CTRLP_TMUX,
-  CT_CTRLN_ZOOM,
-  CT_PROJ,
-  CT_TEST,
-  CT_GIT_CLOSE,
-  CT_TAB_ESC,
-  CT_BSPC_BK,
 };
 /* Fn keys */
 
@@ -103,97 +74,93 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Base Layer
  *
  * ,-----------------------------------------------------.           ,-----------------------------------------------------.
- * |         ~ |   1  |   2  |   3  |   4  |   5  | ir/mu|           | proj |   6  |   7  |   8  |   9  |  0   | kill      |
+ * |         ~ |   1  |   2  |   3  |   4  |   5  |      |           |      |   6  |   7  |   8  |   9  |  0   |           |
  * |-----------+------+------+------+------+-------------|           |------+------+------+------+------+------+-----------|
- * |  t_back   |   Q  |   W  | E/SFT|   R  |   T  |   (  |           |  )   |   Y  |   U  | I/SFT|   O  |  P   | \         |
+ * |           |   Q  |   W  | D/SFT|   F  |   K  |   (  |           |  )   |   J  |   U  | R/SFT|   L  |  '   | \         |
  * |-----------+------+------+------+------+------|   [  |           |  ]   |------+------+------+------+------+-----------|
- * |  Next/Prev|   A  | S/ALT| D/CTL| F/GUI|   G  |------|           |------|   H  | J/GUI| K/CTL| L/ALT|  '   | = / Arrow |
- * |-----------+------+------+------+------+------| C-p  |           | C-n  |------+------+------+------+------+-----------|
- * | Play/Pause|   Z  |   X  |   C  |   V  |   B  | tmux |           | zoom |   N  |   M  |   ,  |   .  |      |      Stop |
+ * |  Next/Prev|   A  | S/ALT| E/CTL| T/GUI|G/MOUS|------|           |------|   Y  | N/GUI| I/CTL| O/ALT|  H   | = /       |
+ * |-----------+------+------+------+------+------|   {  |           |  }   |------+------+------+------+------+-----------|
+ * | Play/Pause|   Z  |   X  |   C  |   V  |   B  |      |           |      |   P  |   M  |   ,  |   .  |      |           |
  * `-----------+------+------+------+------+-------------'           `-------------+------+------+------+------+-----------'
- *     |cop/pas|      |      |   :  |  /   |                                       |   -  |test  |git/cl|      |       |
+ *     | cut   | copy |paste |   :  |  /   |                                       |   -  |      |      |      |       |
  *     `-----------------------------------'                                       `-----------------------------------'
  *                                         ,-------------.           ,-------------.
- *                                         | esc  |      |           | MDIA | Del  |
+ *                                         | esc  |      |           |      | Del  |
  *                                  ,------|------|------|           |------+------+------.
  *                                  |      |      |      |           | LEAD |      |      |
  *                                  |Backsp| tab  |------|           |------| Enter| Space|
- *                                  |      |      |  {   |           |  }   |      |      |
+ *                                  |      |      |mouse |           |      |      |      |
  *                                  `--------------------'           `--------------------'
  */
 [BASE] = KEYMAP(
 // left hand
- KC_TILD          ,TD(KF_1),TD(KF_2)   ,TD(KF_3)   ,TD(KF_4)   ,TD(KF_5),TD(CT_IRC_MUTT)
-,TD(CT_BSPC_BK)   ,KC_Q    ,KC_W       ,SFT_T(KC_E),KC_R       ,KC_T    ,TD(CT_LBP)
-,M(NP)            ,KC_A    ,ALT_T(KC_S),CTL_T(KC_D),GUI_T(KC_F),KC_G
-,KC_MPLY          ,KC_Z    ,KC_X       ,KC_C       ,KC_V       ,KC_B    ,TD(CT_CTRLP_TMUX)
-,TD(CT_COPY_PASTE),KC_NO   ,KC_NO      ,TD(CT_CLN) ,TD(KF_SLSH)
+ KC_TILD          ,TD(KF_1)   ,TD(KF_2)   ,TD(KF_3)   ,TD(KF_4)   ,TD(KF_5),KC_NO
+,KC_NO            ,KC_Q       ,KC_W       ,SFT_T(KC_D),KC_F       ,KC_K    ,TD(CT_LBP)
+,M(NP)            ,KC_A       ,ALT_T(KC_S),CTL_T(KC_E),GUI_T(KC_T),LT(MOUSE,KC_G)
+,KC_MPLY          ,KC_Z       ,KC_X       ,KC_C       ,KC_V       ,KC_B    ,KC_LCBR
+,LGUI(KC_X)       ,LGUI(KC_C) ,LGUI(KC_V) ,TD(CT_CLN) ,TD(KF_SLSH)
 
 ,KC_ESC ,KC_NO
 ,KC_NO
-,KC_BSPC,KC_TAB,KC_LCBR
+,KC_BSPC,KC_TAB,TG(MOUSE)
 
 
 // right hand
-,TD(CT_PROJ)      ,TD(KF_6)   ,TD(KF_7)        ,TD(KF_8)   ,TD(KF_9)   ,TD(KF_0)   ,M(KILL)
-,TD(CT_RBP)       ,KC_Y       ,KC_U            ,SFT_T(KC_I),KC_O       ,KC_P       ,KC_BSLS
-,KC_H             ,GUI_T(KC_J),CTL_T(KC_K)     ,ALT_T(KC_L),TD(KF_QUOT),TD(KF_EQL)
-,TD(CT_CTRLN_ZOOM),KC_N       ,KC_M            ,TD(KF_COMM),TD(KF_DOT) ,TD(KF_SLSH),KC_MSTP
-,TD(KF_MINS)      ,TD(CT_TEST),TD(CT_GIT_CLOSE),KC_NO      ,KC_NO
+,KC_NO       ,TD(KF_6)   ,TD(KF_7)        ,TD(KF_8)   ,TD(KF_9)   ,TD(KF_0)   ,KC_NO
+,TD(CT_RBP)  ,KC_J       ,KC_U            ,SFT_T(KC_R),KC_L       ,TD(KF_QUOT),KC_BSLS
+,KC_Y        ,GUI_T(KC_N),CTL_T(KC_I)     ,ALT_T(KC_O),KC_H       ,TD(KF_EQL)
+,KC_RCBR     ,KC_P       ,KC_M            ,TD(KF_COMM),TD(KF_DOT) ,KC_NO      ,KC_NO
+,TD(KF_MINS) ,KC_NO      ,KC_NO           ,KC_NO      ,KC_NO
 
-,OSL(NMDIA),KC_DEL
+,KC_NO,KC_DEL
 ,KC_LEAD
-,KC_RCBR   ,KC_ENT ,KC_SPC
+,KC_NO   ,KC_ENT ,KC_SPC
     ),
-/* Keymap 1: Navigation & Media layer
+/* Keymap 1: Mouse
  *
  * ,-----------------------------------------------------.           ,-----------------------------------------------------.
- * | MS Slow   |      |      |      |      |      |ScrLCK|           |ScrLCK|      |      |      |      |      |           |
+ * |           |      |      |      |      |      |      |           | sleep|iterm |inteli|safari|finder|itunes| message   |
  * |-----------+------+------+------+------+-------------|           |------+------+------+------+------+------+-----------|
- * | MS Normal |      | Home |  Up  | PgUp |      |      |           |Scroll|      |MsUpL | MsUp |MsUpR |      |PrintScreen|
- * |-----------+------+------+------+------+------|      |           |  Up  |------+------+------+------+------+-----------|
- * | MS Fast   |      | Left | Down | Right|      |------|           |------|      |MsLeft| MsDn |MsRght|      |           |
- * |-----------+------+------+------+------+------|      |           |Scroll|------+------+------+------+------+-----------|
- * | Play/Pause|      | End  | Down | PgDn |      |      |           | Down |      |MsDnL | MsDn |MsDnR |      |      Stop |
+ * |           | G_Q  | G_W  |      | G_R  | G_T  | tab  |           |      | home | pgdn | pgup | end  |      | sequel    |
+ * |-----------+------+------+------+------+------|      |           |      |------+------+------+------+------+-----------|
+ * |           | G_A  | G_S  |      | G_F  |      |------|           |------| left | down | top  |right |      |           |
+ * |-----------+------+------+------+------+------|      |           |      |------+------+------+------+------+-----------|
+ * |           |      | G_X  | G_C  | G_V  |      |      |           |      |      |      |      |      |      |           |
  * `-----------+------+------+------+------+-------------'           `-------------+------+------+------+------+-----------'
- *      |sleep |sequel|messag|safari|finder|                                       |      |      |      |      |      |
+ *      |      |      |      |      |      |                                       |voldn |volup |      |      |      |
  *      `----------------------------------'                                       `----------------------------------'
  *                                         ,-------------.           ,-------------.
- *                                         | Mute | VlUp |           | BASE | MClk |
+ *                                         | esc  |      |           |      |      |
  *                                  ,------|------|------|           |------+------+------.
- *                                  |      |      | VlDn |           | Prev |Left  |Right |
- *                                  |iterm |chrome|------|           |------| Click| Click|
- *                                  |      |      | ESC  |           | Next |      |      |
+ *                                  |      |      |      |           |      |Left  |Right |
+ *                                  | G_Spc|  G   |------|           |------| Click| Click|
+ *                                  |      |      | base |           |      |      |      |
  *                                  `--------------------'           `--------------------'
  */
-[NMDIA] = KEYMAP(
+[MOUSE] = KEYMAP(
 // left hand
- M(A_ACL0)  ,KC_NO       ,KC_NO       ,KC_NO   ,KC_NO   ,KC_NO    ,LGUI(KC_L)
-,M(A_ACL1)  ,KC_NO       ,KC_HOME     ,KC_UP   ,KC_PGUP ,KC_NO    ,KC_NO
-,M(A_ACL2)  ,KC_NO       ,KC_LEFT     ,KC_DOWN ,KC_RIGHT,KC_NO
-,KC_MPLY    ,KC_NO       ,KC_END      ,KC_DOWN ,KC_PGDN ,KC_NO    ,KC_NO
-,M(AP_SLEEP),M(AP_SEQUEL),M(AP_MESSAGE),M(AP_SAFARI),M(AP_FINDER)
+ KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO     ,KC_NO
+,KC_NO      ,LGUI(KC_Q) ,LGUI(KC_W) ,KC_NO      ,LGUI(KC_R) ,LGUI(KC_T),KC_TAB
+,KC_NO      ,LGUI(KC_A) ,LGUI(KC_S) ,KC_NO      ,LGUI(KC_F) ,KC_NO
+,KC_NO      ,KC_NO      ,LGUI(KC_X) ,LGUI(KC_C) ,LGUI(KC_V) ,KC_NO      ,KC_NO
+,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO
 
-,KC_MUTE ,KC_VOLU
-,KC_VOLD
-,M(AP_ITERM),M(AP_CHROME),KC_ESC
+,KC_ESC ,KC_NO
+,KC_NO
+,GUI(KC_SPC),KC_LGUI,KC_TRNS
 
 // right hand
-,LGUI(KC_L),KC_NO   ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO,KC_NO
-,KC_WH_U   ,KC_NO   ,M(A_MUL),KC_MS_U ,M(A_MUR),KC_NO,KC_PSCR
-,KC_NO     ,KC_MS_L ,KC_MS_D ,KC_MS_R ,KC_NO   ,KC_NO
-,KC_WH_D   ,KC_NO   ,M(A_MDL),KC_MS_D ,M(A_MDR),KC_NO,KC_MSTP
-,KC_NO     ,KC_NO   ,KC_NO   ,KC_NO   ,KC_NO
+,M(AP_SLEEP),M(AP_ITERM),M(AP_INTELLIJ),M(AP_SAFARI),M(AP_FINDER),M(AP_ITUNES),M(AP_MESSAGE)
+,KC_NO      ,KC_HOME    ,KC_PGDN       ,KC_PGUP     ,KC_END      ,KC_NO       ,M(AP_SEQUEL)
+,KC_NO      ,KC_LEFT    ,KC_DOWN       ,KC_UP       ,KC_RGHT     ,KC_NO
+,KC_NO      ,KC_NO      ,KC_NO         ,KC_NO       ,KC_NO       ,KC_NO       ,KC_NO
+,KC_NO      ,KC_NO      ,KC_NO         ,KC_NO       ,KC_NO
 
-,KC_TRNS,KC_MS_BTN3
-,KC_MPRV
-,KC_MNXT,KC_BTN1 ,KC_BTN2
+,KC_NO,KC_NO
+,KC_NO
+,KC_NO,KC_BTN1 ,KC_BTN2
     ),
 };
-
-static struct {
-  uint8_t idx;
-} m_accel_state;
 
 #define TAP_ONCE(code)  \
   register_code (code); \
@@ -223,18 +190,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
       }
     }
     break;
-  case KILL:
-    if (record->event.pressed) {
-      register_code (KC_LCTRL);
-      register_code (KC_C);
-      unregister_code (KC_C);
-      unregister_code (KC_LCTRL);
-      register_code (KC_LCTRL);
-      register_code (KC_C);
-      unregister_code (KC_C);
-      unregister_code (KC_LCTRL);
-    }
-    break;
   case AP_ITERM:
     if (record->event.pressed) {
       register_code (KC_LGUI);
@@ -252,15 +207,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
       unregister_code (KC_SPC);
       wait_ms(255);
       return MACRO(T(S), T(A), T(F), T(A), T(R), T(I), T(ENT), END);
-    }
-  case AP_CHROME:
-    if (record->event.pressed) {
-      register_code (KC_LGUI);
-      register_code (KC_SPC);
-      unregister_code (KC_LGUI);
-      unregister_code (KC_SPC);
-      wait_ms(255);
-      return MACRO(T(C), T(H), T(R), T(O), T(M), T(E), T(ENT), END);
     }
   case AP_FINDER:
     if (record->event.pressed) {
@@ -307,70 +253,15 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
       wait_ms(255);
       return MACRO(T(S), T(E), T(Q), T(U), T(E), T(L), T(ENT), END);
     }
-
-#if MOUSEKEY_ENABLE
-  /* Mouse movement */
-  case A_MUL:
+  case AP_INTELLIJ:
     if (record->event.pressed) {
-      mousekey_on(KC_MS_UP);
-      mousekey_on(KC_MS_LEFT);
-    } else {
-      mousekey_off(KC_MS_UP);
-      mousekey_off(KC_MS_LEFT);
+      register_code (KC_LGUI);
+      register_code (KC_SPC);
+      unregister_code (KC_LGUI);
+      unregister_code (KC_SPC);
+      wait_ms(255);
+      return MACRO(T(I), T(N), T(T), T(E), T(L), T(L), T(I), T(J), T(ENT), END);
     }
-    mousekey_send();
-    break;
-
-  case A_MUR:
-    if (record->event.pressed) {
-      mousekey_on(KC_MS_UP);
-      mousekey_on(KC_MS_RIGHT);
-    } else {
-      mousekey_off(KC_MS_UP);
-      mousekey_off(KC_MS_RIGHT);
-    }
-    mousekey_send();
-    break;
-
-  case A_MDL:
-    if (record->event.pressed) {
-      mousekey_on(KC_MS_DOWN);
-      mousekey_on(KC_MS_LEFT);
-    } else {
-      mousekey_off(KC_MS_DOWN);
-      mousekey_off(KC_MS_LEFT);
-    }
-    mousekey_send();
-    break;
-
-  case A_MDR:
-    if (record->event.pressed) {
-      mousekey_on(KC_MS_DOWN);
-      mousekey_on(KC_MS_RIGHT);
-    } else {
-      mousekey_off(KC_MS_DOWN);
-      mousekey_off(KC_MS_RIGHT);
-    }
-    mousekey_send();
-    break;
-
-  case A_ACL0 ... A_ACL2:
-    if (record->event.pressed) {
-      uint8_t idx = id - A_ACL0;
-      if (m_accel_state.idx == id) {
-        mousekey_off(m_accel_state.idx - A_ACL0 + KC_ACL0);
-        m_accel_state.idx = 0;
-      } else {
-        if (m_accel_state.idx) {
-          mousekey_off(m_accel_state.idx - A_ACL0 + KC_ACL0);
-          m_accel_state.idx = 0;
-        }
-        mousekey_on(KC_ACL0 + idx);
-        m_accel_state.idx = id;
-      }
-    }
-    break;
-#endif
   }
 
   return MACRO_NONE;
@@ -396,128 +287,12 @@ void matrix_init_user(void) {
     eeconfig_init();
 };
 
-static void ang_tap_dance_irc_mutt (qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    register_code (KC_LCTRL);
-    register_code (KC_S);
-    unregister_code (KC_LCTRL);
-    unregister_code (KC_S);
-    register_code (KC_I);
-    unregister_code (KC_I);
-  } else {
-    register_code (KC_LCTRL);
-    register_code (KC_S);
-    unregister_code (KC_LCTRL);
-    unregister_code (KC_S);
-    register_code (KC_M);
-    unregister_code (KC_M);
-  }
-}
-
-static void ang_tap_dance_ctrlp_tmux (qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    register_code (KC_LCTRL);
-    register_code (KC_P);
-    unregister_code (KC_P);
-    unregister_code (KC_LCTRL);
-  } else {
-    register_code (KC_LCTRL);
-    register_code (KC_S);
-    unregister_code (KC_S);
-    unregister_code (KC_LCTRL);
-  }
-}
-
-static void ang_tap_dance_ctrln_zoom (qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    register_code (KC_LCTRL);
-    register_code (KC_N);
-    unregister_code (KC_N);
-    unregister_code (KC_LCTRL);
-  } else {
-    register_code (KC_LCTRL);
-    register_code (KC_S);
-    unregister_code (KC_LCTRL);
-    unregister_code (KC_S);
-    register_code (KC_Z);
-    unregister_code (KC_Z);
-  }
-}
-
-static void ang_tap_dance_proj (qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    register_code (KC_LCTRL);
-    register_code (KC_S);
-    unregister_code (KC_S);
-    register_code (KC_J);
-    unregister_code (KC_J);
-    unregister_code (KC_LCTRL);
-  } else {
-    register_code (KC_LCTRL);
-    register_code (KC_S);
-    unregister_code (KC_S);
-    register_code (KC_T);
-    unregister_code (KC_T);
-    unregister_code (KC_LCTRL);
-  }
-}
-
-static void ang_tap_dance_test (qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    register_code (KC_SPC);
-    unregister_code (KC_SPC);
-    register_code (KC_A);
-    unregister_code (KC_A);
-  } else {
-    register_code (KC_SPC);
-    unregister_code (KC_SPC);
-    register_code (KC_L);
-    unregister_code (KC_L);
-  }
-}
-
-static void ang_tap_dance_git_close (qk_tap_dance_state_t *state, void *user_data) {
-  if (state->count == 1) {
-    register_code (KC_LCTRL);
-    register_code (KC_S);
-    unregister_code (KC_LCTRL);
-    unregister_code (KC_S);
-    register_code (KC_G);
-    unregister_code (KC_G);
-  } else {
-    register_code (KC_LCTRL);
-    register_code (KC_S);
-    unregister_code (KC_LCTRL);
-    unregister_code (KC_S);
-    register_code (KC_X);
-    unregister_code (KC_X);
-  }
-}
-
-static void ang_tap_dance_bspc_bk (qk_tap_dance_state_t *state, void *user_data) {
-  register_code (KC_LCTRL);
-  register_code (KC_S);
-  unregister_code (KC_LCTRL);
-  unregister_code (KC_S);
-  register_code (KC_A);
-  unregister_code (KC_A);
-}
-
 LEADER_EXTERNS();
 
 qk_tap_dance_action_t tap_dance_actions[] = {
   [CT_CLN]        = ACTION_TAP_DANCE_DOUBLE (KC_COLN, KC_SCLN),
   [CT_LBP]        = ACTION_TAP_DANCE_DOUBLE (KC_LBRC, KC_LPRN),
   [CT_RBP]        = ACTION_TAP_DANCE_DOUBLE (KC_RBRC, KC_RPRN),
-  [CT_COPY_PASTE] = ACTION_TAP_DANCE_DOUBLE (LGUI(KC_C), LGUI(KC_V)),
-  [CT_TAB_ESC]    = ACTION_TAP_DANCE_DOUBLE (KC_TAB, KC_ESC),
-  [CT_IRC_MUTT]   = ACTION_TAP_DANCE_FN (ang_tap_dance_irc_mutt),
-  [CT_CTRLP_TMUX] = ACTION_TAP_DANCE_FN (ang_tap_dance_ctrlp_tmux),
-  [CT_CTRLN_ZOOM] = ACTION_TAP_DANCE_FN (ang_tap_dance_ctrln_zoom),
-  [CT_PROJ]       = ACTION_TAP_DANCE_FN (ang_tap_dance_proj),
-  [CT_TEST]       = ACTION_TAP_DANCE_FN (ang_tap_dance_test),
-  [CT_GIT_CLOSE]  = ACTION_TAP_DANCE_FN (ang_tap_dance_git_close),
-  [CT_BSPC_BK]    = ACTION_TAP_DANCE_FN (ang_tap_dance_bspc_bk),
   [KF_1]          = ACTION_TAP_DANCE_DOUBLE (KC_1, KC_EXLM),
   [KF_2]          = ACTION_TAP_DANCE_DOUBLE (KC_2, KC_AT),
   [KF_3]          = ACTION_TAP_DANCE_DOUBLE (KC_3, KC_HASH),
@@ -548,7 +323,7 @@ void matrix_scan_user(void) {
       xprintf("LAYER: %s\n", layer_lookup[layer]);
   }
 
-  if (layer == NMDIA) {
+  if (layer == MOUSE) {
     ergodox_right_led_2_on();
     ergodox_right_led_3_on();
   }
@@ -568,7 +343,7 @@ void matrix_scan_user(void) {
     ergodox_right_led_2_on ();
   } else {
     ergodox_right_led_2_set (LED_BRIGHTNESS_LO);
-    if (layer != NMDIA)
+    if (layer != MOUSE)
       ergodox_right_led_2_off ();
   }
 
@@ -578,7 +353,7 @@ void matrix_scan_user(void) {
     ergodox_right_led_3_on ();
   } else {
     ergodox_right_led_3_set (LED_BRIGHTNESS_LO);
-    if (layer != NMDIA)
+    if (layer != MOUSE)
       ergodox_right_led_3_off ();
   }
 
