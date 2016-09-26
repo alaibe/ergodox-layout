@@ -14,7 +14,8 @@
 
 /* Layers */
 #define BASE 0
-#define MOUSE 1
+#define GUI_MOVE 1
+#define SHT_MOVE 2
 
 /* Macros */
 enum {
@@ -27,6 +28,7 @@ enum {
   AP_SLEEP,
   AP_SEQUEL,
   AP_INTELLIJ,
+  AP_RAMBOX,
 
   NP,
 
@@ -78,87 +80,131 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |-----------+------+------+------+------+-------------|           |------+------+------+------+------+------+-----------|
  * |           |   Q  |   W  | D/SFT|   F  |   K  |   (  |           |  )   |   J  |   U  | R/SFT|   L  |  '   | \         |
  * |-----------+------+------+------+------+------|   [  |           |  ]   |------+------+------+------+------+-----------|
- * |  Next/Prev|   A  | S/ALT| E/CTL| T/GUI|G/MOUS|------|           |------|   Y  | N/GUI| I/CTL| O/ALT|  H   | = /       |
+ * |  Next/Prev|   A  | S/ALT| E/CTL| T/GUI| G/gui|------|           |------| Y/Gui| N/GUI| I/CTL| O/ALT|  H   | = /       |
  * |-----------+------+------+------+------+------|   {  |           |  }   |------+------+------+------+------+-----------|
- * | Play/Pause|   Z  |   X  |   C  |   V  |   B  |      |           |      |   P  |   M  |   ,  |   .  |      |           |
+ * | Play/Pause|   Z  |   X  |   C  |V/SHTL|   B  |      |           |      |   P  |   M  |   ,  |   .  |      | KC_VOLU   |
  * `-----------+------+------+------+------+-------------'           `-------------+------+------+------+------+-----------'
- *     | cut   | copy |paste |   :  |  /   |                                       |   -  |      |      |      |       |
+ *     | cut   | copy |paste |   :  |  /   |                                       |   -  |      |      |      |KC_VOLD|
  *     `-----------------------------------'                                       `-----------------------------------'
  *                                         ,-------------.           ,-------------.
  *                                         | esc  |      |           |      | Del  |
  *                                  ,------|------|------|           |------+------+------.
  *                                  |      |      |      |           | LEAD |      |      |
  *                                  |Backsp| tab  |------|           |------| Enter| Space|
- *                                  |      |      |mouse |           |      |      |      |
+ *                                  |      |      |gui   |           |      |      |      |
  *                                  `--------------------'           `--------------------'
  */
 [BASE] = KEYMAP(
 // left hand
- KC_TILD          ,TD(KF_1)   ,TD(KF_2)   ,TD(KF_3)   ,TD(KF_4)   ,TD(KF_5),KC_NO
-,KC_NO            ,KC_Q       ,KC_W       ,SFT_T(KC_D),KC_F       ,KC_K    ,TD(CT_LBP)
-,M(NP)            ,KC_A       ,ALT_T(KC_S),CTL_T(KC_E),GUI_T(KC_T),LT(MOUSE,KC_G)
-,KC_MPLY          ,KC_Z       ,KC_X       ,KC_C       ,KC_V       ,KC_B    ,KC_LCBR
+ KC_TILD          ,TD(KF_1)   ,TD(KF_2)   ,TD(KF_3)   ,TD(KF_4)         ,TD(KF_5),KC_NO
+,KC_NO            ,KC_Q       ,KC_W       ,SFT_T(KC_D),KC_F             ,KC_K    ,TD(CT_LBP)
+,M(NP)            ,KC_A       ,ALT_T(KC_S),CTL_T(KC_E),GUI_T(KC_T)      ,LT(GUI_MOVE, KC_G)
+,KC_MPLY          ,KC_Z       ,KC_X       ,KC_C       ,LT(SHT_MOVE,KC_V),KC_B    ,KC_LCBR
 ,LGUI(KC_X)       ,LGUI(KC_C) ,LGUI(KC_V) ,TD(CT_CLN) ,TD(KF_SLSH)
 
 ,KC_ESC ,KC_NO
 ,KC_NO
-,KC_BSPC,KC_TAB,TG(MOUSE)
+,KC_BSPC,KC_TAB,TG(GUI_MOVE)
 
 
 // right hand
-,KC_NO       ,TD(KF_6)   ,TD(KF_7)        ,TD(KF_8)   ,TD(KF_9)   ,TD(KF_0)   ,KC_NO
-,TD(CT_RBP)  ,KC_J       ,KC_U            ,SFT_T(KC_R),KC_L       ,TD(KF_QUOT),KC_BSLS
-,KC_Y        ,GUI_T(KC_N),CTL_T(KC_I)     ,ALT_T(KC_O),KC_H       ,TD(KF_EQL)
-,KC_RCBR     ,KC_P       ,KC_M            ,TD(KF_COMM),TD(KF_DOT) ,KC_NO      ,KC_NO
-,TD(KF_MINS) ,KC_NO      ,KC_NO           ,KC_NO      ,KC_NO
+,KC_NO             ,TD(KF_6)   ,TD(KF_7)        ,TD(KF_8)   ,TD(KF_9)        ,TD(KF_0)   ,KC_NO
+,TD(CT_RBP)        ,KC_J       ,KC_U            ,SFT_T(KC_R),KC_L            ,TD(KF_QUOT),KC_BSLS
+,LT(GUI_MOVE, KC_Y),GUI_T(KC_N),CTL_T(KC_I)     ,ALT_T(KC_O),KC_H            ,TD(KF_EQL)
+,KC_RCBR           ,KC_P       ,KC_M            ,TD(KF_COMM),TD(KF_DOT)      ,KC_NO      ,KC_VOLU
+,TD(KF_MINS)       ,KC_NO      ,KC_NO           ,KC_NO      ,KC_VOLD
 
 ,KC_NO,KC_DEL
 ,KC_LEAD
 ,KC_NO   ,KC_ENT ,KC_SPC
     ),
-/* Keymap 1: Mouse
+/* Keymap 1: Gui and move
  *
  * ,-----------------------------------------------------.           ,-----------------------------------------------------.
- * |           |      |      |      |      |      |      |           | sleep|iterm |inteli|safari|finder|itunes| message   |
+ * |           |      |      |      |      |      |      |           | sleep|iterm |inteli|safari|rambox|itunes| message   |
  * |-----------+------+------+------+------+-------------|           |------+------+------+------+------+------+-----------|
- * |           | G_Q  | G_W  |      | G_R  | G_T  | tab  |           |      | home | pgdn | pgup | end  |      | sequel    |
+ * |           | G_Q  | G_W  |      | G_R  | G_T  |      |           |      |      | home | pgdn | pgup |  end | sequel    |
  * |-----------+------+------+------+------+------|      |           |      |------+------+------+------+------+-----------|
- * |           | G_A  | G_S  |      | G_F  |      |------|           |------| left | down | top  |right |      |           |
+ * |           | G_A  | G_S  |      | G_F  | base |------|           |------| base | left | down | top  |right | finder    |
  * |-----------+------+------+------+------+------|      |           |      |------+------+------+------+------+-----------|
- * |           |      | G_X  | G_C  | G_V  |      |      |           |      |      |      |      |      |      |           |
+ * |           | G_Z  | G_X  | G_C  | G_V  |      | G_{  |           | G_}  |      | wleft| wdn  | wup  |wrgt  |           |
  * `-----------+------+------+------+------+-------------'           `-------------+------+------+------+------+-----------'
- *      |      |      |      |      |      |                                       |voldn |volup |      |      |      |
+ *      |      |      |      |      |      |                                       |      |      |      |      |      |
  *      `----------------------------------'                                       `----------------------------------'
  *                                         ,-------------.           ,-------------.
- *                                         | esc  |      |           |      |      |
+ *                                         |      |      |           |      |      |
  *                                  ,------|------|------|           |------+------+------.
  *                                  |      |      |      |           |      |Left  |Right |
- *                                  | G_Spc|  G   |------|           |------| Click| Click|
+ *                                  | G_Spc|enter |------|           |------| Click| Click|
  *                                  |      |      | base |           |      |      |      |
  *                                  `--------------------'           `--------------------'
  */
-[MOUSE] = KEYMAP(
+[GUI_MOVE] = KEYMAP(
 // left hand
  KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO     ,KC_NO
-,KC_NO      ,LGUI(KC_Q) ,LGUI(KC_W) ,KC_NO      ,LGUI(KC_R) ,LGUI(KC_T),KC_TAB
-,KC_NO      ,LGUI(KC_A) ,LGUI(KC_S) ,KC_NO      ,LGUI(KC_F) ,KC_NO
-,KC_NO      ,KC_NO      ,LGUI(KC_X) ,LGUI(KC_C) ,LGUI(KC_V) ,KC_NO      ,KC_NO
+,KC_NO      ,LGUI(KC_Q) ,LGUI(KC_W) ,KC_NO      ,LGUI(KC_R) ,LGUI(KC_T),KC_NO
+,KC_NO      ,LGUI(KC_A) ,LGUI(KC_S) ,KC_NO      ,LGUI(KC_F) ,KC_TRNS
+,KC_NO      ,LGUI(KC_Z) ,LGUI(KC_X) ,LGUI(KC_C) ,LGUI(KC_V) ,KC_NO     ,KC_NO
 ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO
 
-,KC_ESC ,KC_NO
+,KC_NO ,KC_NO
 ,KC_NO
-,GUI(KC_SPC),KC_LGUI,KC_TRNS
+,LGUI(KC_SPC),KC_ENT,KC_TRNS
 
 // right hand
-,M(AP_SLEEP),M(AP_ITERM),M(AP_INTELLIJ),M(AP_SAFARI),M(AP_FINDER),M(AP_ITUNES),M(AP_MESSAGE)
-,KC_NO      ,KC_HOME    ,KC_PGDN       ,KC_PGUP     ,KC_END      ,KC_NO       ,M(AP_SEQUEL)
-,KC_NO      ,KC_LEFT    ,KC_DOWN       ,KC_UP       ,KC_RGHT     ,KC_NO
-,KC_NO      ,KC_NO      ,KC_NO         ,KC_NO       ,KC_NO       ,KC_NO       ,KC_NO
+,M(AP_SLEEP),M(AP_ITERM),M(AP_INTELLIJ),M(AP_SAFARI),M(AP_RAMBOX),M(AP_ITUNES) ,M(AP_MESSAGE)
+,KC_NO      ,KC_NO      ,KC_HOME       ,KC_PGDN     ,KC_PGUP     ,KC_END       ,M(AP_SEQUEL)
+,KC_TRNS    ,KC_LEFT    ,KC_DOWN       ,KC_UP       ,KC_RGHT     ,M(AP_FINDER)
+,KC_NO      ,KC_NO      ,LALT(KC_LEFT) ,KC_WH_D     ,KC_WH_U     ,LALT(KC_RGHT),KC_NO
 ,KC_NO      ,KC_NO      ,KC_NO         ,KC_NO       ,KC_NO
 
 ,KC_NO,KC_NO
 ,KC_NO
 ,KC_NO,KC_BTN1 ,KC_BTN2
+    ),
+/* Keymap 2: Shift and move
+ *
+ * ,-----------------------------------------------------.           ,-----------------------------------------------------.
+ * |           |      |      |      |      |      |      |           |      |      |      |      |      |      |           |
+ * |-----------+------+------+------+------+-------------|           |------+------+------+------+------+------+-----------|
+ * |           |      |      |      |      |      |      |           |      |      | home | pgdn | pgup |  end |           |
+ * |-----------+------+------+------+------+------|      |           |      |------+------+------+------+------+-----------|
+ * |           |      |      |      |      |      |------|           |------|      | left | down | top  |right |           |
+ * |-----------+------+------+------+------+------|      |           |      |------+------+------+------+------+-----------|
+ * |           |      |      |      | base |      |      |           |      |      | wleft|      |      |wrgt  |           |
+ * `-----------+------+------+------+------+-------------'           `-------------+------+------+------+------+-----------'
+ *      |      |      |      |      |      |                                       |      |      |      |      |      |
+ *      `----------------------------------'                                       `----------------------------------'
+ *                                         ,-------------.           ,-------------.
+ *                                         |      |      |           |      |      |
+ *                                  ,------|------|------|           |------+------+------.
+ *                                  |      |      |      |           |      |      |      |
+ *                                  |      |      |------|           |------|      |      |
+ *                                  |      |      | base |           |      |      |      |
+ *                                  `--------------------'           `--------------------'
+ */
+[SHT_MOVE] = KEYMAP(
+// left hand
+ KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO     ,KC_NO
+,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO     ,KC_NO
+,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO
+,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_TRNS    ,KC_NO     ,KC_NO
+,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO      ,KC_NO
+
+,KC_NO ,KC_NO
+,KC_NO
+,KC_NO ,KC_NO,KC_TRNS
+
+// right hand
+,KC_NO      ,KC_NO        ,KC_NO               ,KC_NO         ,KC_NO         ,KC_NO              ,KC_NO
+,KC_NO      ,KC_NO        ,LSFT(KC_HOME)       ,LSFT(KC_PGDN) ,LSFT(KC_PGUP) ,LSFT(KC_END)       ,KC_NO
+,KC_NO      ,LSFT(KC_LEFT),LSFT(KC_DOWN)       ,LSFT(KC_UP)   ,LSFT(KC_RGHT) ,KC_NO
+,KC_NO      ,KC_NO        ,LSFT(LALT(KC_LEFT)) ,KC_NO         ,KC_NO         ,LSFT(LALT(KC_RGHT)),KC_NO
+,KC_NO      ,KC_NO        ,KC_NO               ,KC_NO         ,KC_NO
+
+,KC_NO,KC_NO
+,KC_NO
+,KC_NO,KC_NO,KC_NO
     ),
 };
 
@@ -262,6 +308,15 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
       wait_ms(255);
       return MACRO(T(I), T(N), T(T), T(E), T(L), T(L), T(I), T(J), T(ENT), END);
     }
+  case AP_RAMBOX:
+    if (record->event.pressed) {
+      register_code (KC_LGUI);
+      register_code (KC_SPC);
+      unregister_code (KC_LGUI);
+      unregister_code (KC_SPC);
+      wait_ms(255);
+      return MACRO(T(R), T(A), T(M), T(B), T(O), T(X), T(ENT), END);
+    }
   }
 
   return MACRO_NONE;
@@ -323,9 +378,14 @@ void matrix_scan_user(void) {
       xprintf("LAYER: %s\n", layer_lookup[layer]);
   }
 
-  if (layer == MOUSE) {
+  if (layer == GUI_MOVE) {
     ergodox_right_led_2_on();
     ergodox_right_led_3_on();
+  }
+
+  if (layer == SHT_MOVE) {
+    ergodox_right_led_1_on();
+    ergodox_right_led_2_on();
   }
 
   if (keyboard_report->mods & MOD_BIT(KC_LSFT) ||
@@ -334,7 +394,8 @@ void matrix_scan_user(void) {
     ergodox_right_led_1_on ();
   } else {
     ergodox_right_led_1_set (LED_BRIGHTNESS_LO);
-    ergodox_right_led_1_off ();
+    if (layer != SHT_MOVE)
+      ergodox_right_led_1_off ();
   }
 
   if (keyboard_report->mods & MOD_BIT(KC_LALT) ||
@@ -343,7 +404,7 @@ void matrix_scan_user(void) {
     ergodox_right_led_2_on ();
   } else {
     ergodox_right_led_2_set (LED_BRIGHTNESS_LO);
-    if (layer != MOUSE)
+    if (layer != GUI_MOVE && layer != SHT_MOVE)
       ergodox_right_led_2_off ();
   }
 
@@ -353,7 +414,7 @@ void matrix_scan_user(void) {
     ergodox_right_led_3_on ();
   } else {
     ergodox_right_led_3_set (LED_BRIGHTNESS_LO);
-    if (layer != MOUSE)
+    if (layer != GUI_MOVE)
       ergodox_right_led_3_off ();
   }
 
