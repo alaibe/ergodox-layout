@@ -78,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 0: Base Layer
  *
  * ,-----------------------------------------------------.           ,-----------------------------------------------------.
- * |         ~ |   1  |   2  |   3  |   4  |   5  | C-n  |           | C-p  |   6  |   7  |   8  |   9  |  0   |           |
+ * |         ~ |   1  |   2  |   3  |   4  |   5  | C-p  |           | C-n  |   6  |   7  |   8  |   9  |  0   |           |
  * |-----------+------+------+------+------+-------------|           |------+------+------+------+------+------+-----------|
  * |      C-c  |   Q  |   W  | D/SFT|   F  |   K  |   (  |           |  )   |   J  |   U  | R/SFT|   L  |  '   | \         |
  * |-----------+------+------+------+------+------|   [  |           |  ]   |------+------+------+------+------+-----------|
@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [BASE] = KEYMAP(
 // left hand
- KC_GRAVE         ,TD(KF_1)   ,TD(KF_2)   ,TD(KF_3)   ,TD(KF_4)         ,TD(KF_5),LCTL(KC_N)
+ KC_GRAVE         ,TD(KF_1)   ,TD(KF_2)   ,TD(KF_3)   ,TD(KF_4)         ,TD(KF_5),LCTL(KC_P)
 ,LCTL(KC_C)       ,KC_Q       ,KC_W       ,SFT_T(KC_D),KC_F             ,KC_K    ,TD(CT_LBP)
 ,M(NP)            ,KC_A       ,ALT_T(KC_S),CTL_T(KC_E),GUI_T(KC_T)      ,LT(GUI_MOVE, KC_G)
 ,KC_MPLY          ,KC_Z       ,KC_X       ,KC_C       ,KC_V             ,KC_B    ,KC_LCBR
@@ -110,7 +110,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 // right hand
-,LCTL(KC_P)        ,TD(KF_6)   ,TD(KF_7)        ,TD(KF_8)   ,TD(KF_9)        ,TD(KF_0)   ,KC_NO
+,LCTL(KC_N)        ,TD(KF_6)   ,TD(KF_7)        ,TD(KF_8)   ,TD(KF_9)        ,TD(KF_0)   ,KC_NO
 ,TD(CT_RBP)        ,KC_J       ,KC_U            ,SFT_T(KC_R),KC_L            ,TD(KF_QUOT),KC_BSLS
 ,KC_Y              ,GUI_T(KC_N),CTL_T(KC_I)     ,ALT_T(KC_O),KC_H            ,TD(KF_EQL)
 ,KC_RCBR           ,KC_P       ,KC_M            ,TD(KF_COMM),TD(KF_DOT)      ,TD(CT_CLN) ,KC_VOLU
@@ -299,15 +299,15 @@ static void ang_tap_dance_irc_mutt (qk_tap_dance_state_t *state, void *user_data
     register_code (KC_S);
     unregister_code (KC_LCTRL);
     unregister_code (KC_S);
-    register_code (KC_I);
-    unregister_code (KC_I);
+    register_code (KC_M);
+    unregister_code (KC_M);
   } else {
     register_code (KC_LCTRL);
     register_code (KC_S);
     unregister_code (KC_LCTRL);
     unregister_code (KC_S);
-    register_code (KC_M);
-    unregister_code (KC_M);
+    register_code (KC_I);
+    unregister_code (KC_I);
   }
 }
 
